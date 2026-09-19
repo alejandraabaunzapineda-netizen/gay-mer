@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Gamer - GameVault</title>
+    <link rel="stylesheet" href="Css/estilos.css">
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">GameVault</div>
+            <ul class="nav-links">
+                <li><a href="inicio.html">Inicio</a></li>
+                <li><a href="index.html">Catálogo</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="cotizacion.html">Cotizacion</a></li>
+                 <li><a href="factura.html">facturacion</a></li>
+                <li>  
+                    <button class="cart-badge-btn">
+                        🛒 Carrito (<span id="cart-count">0</span>)
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <div class="container" id="catalogo">
+        <!-- Listado de Productos -->
+        <main>
+            <h2 style="margin-bottom: 1rem; font-size: 1.5rem;">Productos Disponibles</h2>
+            
+            <!-- Buscador en tiempo real -->
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="🔍 Buscar PC, consolas, teclados, mouse..." oninput="filterProducts()">
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <!-- Los productos se inyectan dinámicamente mediante JavaScript -->
+            </div>
+        </main>
+        
+        <!-- Panel del Carrito -->
+      <aside class="cart-section">
+
+        <div class="cart-title">
+            Tu Carrito
+        </div>
+
+
+        <ul class="cart-items" id="cart-items">
+            <p class="empty-cart">
+                El carrito está vacío
+            </p>
+        </ul>
+
+
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cart-total-price">$0.00</span>
+        </div>
+
+
+        <button class="btn-checkout" onclick="generarFactura()">
+            Generar Factura PDF
+        </button>
+
+    </aside>
+
+    </div>
+
+    <!-- Lógica en JavaScript -->
+    <script>
+        // Base de datos con stock controlado individualmente
+        const products = [
+            { id: 1, name: 'Pc Gamer NovaX', stock: 10, price: 3399900, image: 'imagenes/pc/novax.jpg', description: 'PC de escritorio potente para gaming de alto rendimiento, ideal para juegos exigentes en 1080p y 1440p.' },
+            { id: 2, name: 'Pc Gamer ShadowX', stock: 8, price: 3899900, image: 'imagenes/pc/shadowx.jpg', description: 'Equipo de escritorio con excelente relación precio-rendimiento, pensado para gamers competitivos.' },
+            { id: 3, name: 'Pc Gamer TitanX', stock: 6, price: 5299900, image: 'imagenes/pc/titanx.jpg', description: 'PC de gama alta para gaming en 4K y creación de contenido, con máximo rendimiento gráfico.' },
+            { id: 4, name: 'Laptop Gamer Nova 15', stock: 9, price: 2799900, image: 'imagenes/laptop/nova15.jpg', description: 'Laptop gamer ligera y potente, ideal para jugar y estudiar/trabajar desde cualquier lugar.' },
+            { id: 5, name: 'Laptop Gamer Phathom 15', stock: 4, price: 6400900, image: 'imagenes/laptop/phathom15.jpg', description: 'Laptop gamer premium con pantalla de alta tasa de refresco y máximo rendimiento portátil.' },
+            { id: 6, name: 'Laptop Gamer Titan 15', stock: 6, price: 4999900, image: 'imagenes/laptop/titan15.jpg', description: 'Laptop gamer de gama media-alta, equilibrio perfecto entre potencia y portabilidad.' },
+            { id: 7, name: 'Gabinetes Gamer Blaze', stock: 8, price: 399900, image: 'imagenes/gabinetes/blaze.jpg', description: 'Gabinete gamer con buena ventilación y espacio para múltiples componentes.' },
+            { id: 8, name: 'Gabinetes Gamer Frost', stock: 6, price: 479900, image: 'imagenes/gabinetes/frost.jpg', description: 'Gabinete con panel lateral en vidrio templado e iluminación RGB integrada.' },
+            { id: 9, name: 'Gabinetes Gamer Vertex', stock: 10, price: 329900, image: 'imagenes/gabinetes/vertex.jpg', description: 'Gabinete compacto y económico, ideal para armar tu primer PC gamer.' },
+            { id: 11, name: 'PlayStation 5', stock: 12, price: 2499900, image: 'imagenes/consolas/playstation5.jpg', description: 'Consola de nueva generación con gráficos de última tecnología y tiempos de carga ultra rápidos.' },
+            { id: 12, name: 'Xbox Series', stock: 8, price: 2399900, image: 'imagenes/consolas/xbox.jpg', description: 'Consola potente con acceso a Game Pass y un enorme catálogo de juegos.' },
+            { id: 13, name: 'Nintendo Switch', stock: 15, price: 1499900, image: 'imagenes/consolas/nitendo.jpg', description: 'Consola híbrida portátil y de sobremesa, perfecta para jugar en casa o de viaje.' },
+            { id: 14, name: 'Teclados Gamer Forger', stock: 10, price: 279900, image: 'imagenes/teclados/forger.jpg', description: 'Teclado mecánico con retroiluminación RGB y switches de respuesta rápida.' },
+            { id: 15, name: 'Teclados Gamer Pulse', stock: 15, price: 189900, image: 'imagenes/teclados/pulse.jpg', description: 'Teclado gamer semi-mecánico, cómodo y resistente para largas sesiones de juego.' },
+            { id: 16, name: 'Teclados Gamer Strike', stock: 12, price: 229900, image: 'imagenes/teclados/strike.jpg', description: 'Teclado gamer con teclas anti-ghosting para mayor precisión en combates.' },
+            { id: 17, name: 'Mouse Gamer Aero', stock: 12, price: 159900, image: 'imagenes/mouse/aero.jpg', description: 'Mouse ligero de alta precisión, ideal para shooters competitivos.' },
+            { id: 18, name: 'Mouse Gamer Blaze', stock: 15, price: 129900, image: 'imagenes/mouse/blaze.jpg', description: 'Mouse ergonómico con sensor óptico de alta sensibilidad ajustable.' },
+            { id: 19, name: 'Mouse Gamer Viper', stock: 20, price: 99900, image: 'imagenes/mouse/viper.jpg', description: 'Mouse gamer económico y confiable, perfecto para empezar a mejorar tu setup.' },
+            { id: 20, name: 'Audífonos Gamer Echo', stock: 12, price: 249900, image: 'imagenes/audifonos/echo.jpg', description: 'Audífonos con sonido envolvente y micrófono desmontable para chat en partida.' },
+            { id: 21, name: 'Audífonos Gamer Sonic', stock: 10, price: 299900, image: 'imagenes/audifonos/sonic.jpg', description: 'Audífonos con sonido 7.1 virtual, ideales para detectar pasos y disparos con precisión.' },
+            { id: 22, name: 'Audífonos Gamer Wave', stock: 8, price: 349900, image: 'imagenes/audifonos/wave.jpg', description: 'Audífonos inalámbricos con cancelación de ruido y batería de larga duración.' },
+            { id: 23, name: 'Controles Gamer Core', stock: 12, price: 199900, image: 'imagenes/controles/core.jpg', description: 'Control ergonómico compatible con PC y consola, ideal para todo tipo de juegos.' },
+            { id: 24, name: 'Controles Gamer Drift', stock: 14, price: 179900, image: 'imagenes/controles/drift.jpg', description: 'Control con vibración mejorada y triggers sensibles a la presión.' },
+            { id: 25, name: 'Controles Gamer Volt', stock: 9, price: 249900, image: 'imagenes/controles/volt.jpg', description: 'Control inalámbrico con batería recargable y conexión estable de baja latencia.' },
+            { id: 26, name: 'Silla Gamer Racing Pro', stock: 8, price: 749900, image: 'imagenes/sillas/racingpro.jpg', description: 'Silla estilo racing con soporte lumbar y reposabrazos ajustables.' },
+            { id: 27, name: 'Silla Gamer Comfort Plus', stock: 6, price: 899900, image: 'imagenes/sillas/comfortplus.jpg', description: 'Silla reclinable con acolchado premium, ideal para sesiones largas de juego.' },
+            { id: 28, name: 'Silla Gamer Titan Chair', stock: 5, price: 1099900, image: 'imagenes/sillas/titanchair.jpg', description: 'Silla gamer de gama alta con iluminación RGB y máxima ergonomía.' }
+        ];
+
+        // Recuperar carrito del localStorage
+        let cart = JSON.parse(localStorage.getItem("carritoGameVault")) || [];
+
+        function saveCart() {
+            localStorage.setItem("carritoGameVault", JSON.stringify(cart));
+        }
+
+        // Calcula cuánto stock queda disponible restando lo que ya está en el carrito
+        function getAvailableStock(product) {
+            const cartItem = cart.find(item => item.id === product.id);
+            const enCarrito = cartItem ? cartItem.quantity : 0;
+            return product.stock - enCarrito;
+        }
+
+        // Renderizar productos aplicando el filtro del buscador y el stock disponible real
+        function renderProducts(productsToRender = products) {
+            const grid = document.getElementById('products-grid');
+            
+            if (productsToRender.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#777;">No se encontraron productos.</p>';
+                return;
+            }
+
+            grid.innerHTML = productsToRender.map(product => {
+                const disponible = getAvailableStock(product);
+                const agotado = disponible <= 0;
+
+                return `
+                <div class="product-card">
+                   <img class="product-img" src="${product.image}" alt="${product.name}"> 
+                    <h3 class="product-title">${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <p class="product-stock">Disponibles: ${disponible > 0 ? disponible : 0}</p>
+                    <div class="product-price">$${product.price.toLocaleString("es-CO")}</div>
+                    <button class="btn-add" onclick="addToCart(${product.id})" ${agotado ? 'disabled' : ''}>
+                        ${agotado ? 'Agotado' : 'Agregar al Carrito'}
+                    </button>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Devuelve la lista de productos filtrada según el texto del buscador
+        function getFilteredProducts() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            return products.filter(p => p.name.toLowerCase().includes(query));
+        }
+
+        // Filtrar productos por buscador
+        function filterProducts() {
+            renderProducts(getFilteredProducts());
+        }
+
+        // Agregar producto al carrito con validación de stock
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const cartItem = cart.find(item => item.id === productId);
+
+            const currentQuantityInCart = cartItem ? cartItem.quantity : 0;
+
+            if (currentQuantityInCart >= product.stock) {
+                alert(`¡Lo sentimos! Has alcanzado el límite de stock disponible (${product.stock} unidades) para este producto.`);
+                return;
+            }
+
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            saveCart();
+            renderCart();
+            renderProducts(getFilteredProducts());
+        }
+
+        // Cambiar cantidad (+ o -) desde el carrito
+        function changeQuantity(productId, change) {
+            const product = products.find(p => p.id === productId);
+            const cartItem = cart.find(item => item.id === productId);
+
+            if (!cartItem) return;
+
+            const newQuantity = cartItem.quantity + change;
+
+            if (newQuantity > product.stock) {
+                alert(`No puedes agregar más. Solo hay ${product.stock} unidades disponibles.`);
+                return;
+            }
+
+            if (newQuantity <= 0) {
+                removeFromCart(productId);
+            } else {
+                cartItem.quantity = newQuantity;
+                saveCart();
+                renderCart();
+                renderProducts(getFilteredProducts());
+            }
+        }
+
+        // Eliminar producto del carrito por completo
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            renderCart();
+            renderProducts(getFilteredProducts());
+        }
+
+        // Renderizar el contenido y totales del carrito
+        function renderCart() {
+            const cartItemsList = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotalPrice = document.getElementById('cart-total-price');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalCount;
+
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<p class="empty-cart">El carrito está vacío</p>';
+                cartTotalPrice.textContent = '$0';
+                return;
+            }
+
+            let total = 0;
+            cartItemsList.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <li class="cart-item" style="margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                        <div class="cart-item-details">
+                            <span style="font-weight: bold;">${item.name}</span>
+                            <div class="cart-qty-controls">
+                                <button onclick="changeQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="changeQuantity(${item.id}, 1)">+</button>
+                            </div>
+                            <span class="cart-item-price" style="display:block; margin-top:4px;">Subtotal: $${itemTotal.toLocaleString("es-CO")}</span>
+                        </div>
+                        <button class="btn-remove" onclick="removeFromCart(${item.id})" style="margin-top: 6px;">Eliminar</button>
+                    </li>
+                `;
+            }).join('');
+
+            cartTotalPrice.textContent = `$${total.toLocaleString("es-CO")}`;
+        }
+
+        // Redirigir a la factura (como en el primer código)
+        function generarFactura() {
+            if (cart.length === 0) {
+                alert('El carrito está vacío');
+                return;
+            }
+            saveCart();
+            window.location.href = "factura.html";
+        }
+
+        // Inicializar
+        renderProducts();
+        renderCart();
+    </script>
+</body>
+</html>

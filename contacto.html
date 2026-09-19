@@ -1,0 +1,121 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="Css/contacto.css">
+  <link rel="stylesheet" href="Css/estilos.css">
+  <title>Contacto - GameVault</title>
+</head>
+<body>
+
+  <script>
+    // Actualiza el contador del carrito en el navbar, leyendo lo guardado en el catálogo
+    document.addEventListener("DOMContentLoaded", () => {
+        const carrito = JSON.parse(localStorage.getItem("carritoGameVault")) || [];
+        const totalCantidad = carrito.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountEl = document.getElementById("cart-count");
+        if (cartCountEl) {
+            cartCountEl.textContent = totalCantidad;
+        }
+    });
+</script>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo">GameVault</div>
+      <ul class="nav-links">
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="index.html">Catalogo</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li><a href="cotizacion.html">Cotizacion</a></li>
+         <li><a href="factura.html">facturacion</a></li>
+        <li>
+          <button class="cart-badge-btn">
+            🛒 Carrito (<span id="cart-count">0</span>)
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="arena">
+
+    <div class="arena-title">
+      <div class="tag">SELECCIONA TU MODO</div>
+      <h1>¿Cómo quieres contactarnos?</h1>
+      <p>Elige una opción y te atendemos al instante</p>
+    </div>
+
+    <div class="menu-grid">
+      <a href="https://wa.me/573227295381" target="_blank" class="menu-card selected">
+        <div class="selected-badge">RECOMENDADO</div>
+        <div class="menu-icon">💬</div>
+        <h3>WHATSAPP</h3>
+        <p>Respuesta inmediata</p>
+        <div class="valor">+57 322 729 5381</div>
+      </a>
+      <a href="mailto:GameVault@gmail.com" class="menu-card">
+        <div class="menu-icon">📧</div>
+        <h3>CORREO</h3>
+        <p>Para consultas detalladas</p>
+        <div class="valor">GameVault@gmail.com</div>
+      </a>
+      <div class="menu-card">
+        <div class="menu-icon">📍</div>
+        <h3>TIENDA FÍSICA</h3>
+        <p>Lun - Sáb, 9am - 7pm</p>
+        <div class="valor">Chiquinquirá, Boyacá</div>
+      </div>
+    </div>
+
+    <div class="panel-consola">
+      <form id="whatsappForm">
+        <div class="campos">
+          <div class="campo">
+            <label for="nombre">NOMBRE</label>
+            <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
+          </div>
+          <div class="campo">
+            <label for="asunto">ASUNTO</label>
+            <input type="text" id="asunto" placeholder="Ej. Consulta de servicios" required>
+          </div>
+          <div class="campo campo-full">
+            <label for="mensaje">MENSAJE</label>
+            <textarea id="mensaje" rows="3" placeholder="Escribe tu consulta..." required></textarea>
+          </div>
+          <button type="submit" class="btn-ejecutar">▶ ENVIAR MENSAJE</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <footer class="footer-contacto">
+    © 2026 GameVault. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // REEMPLAZA CON TU NÚMERO (Código de país + número, sin + ni espacios)
+      const numeroTelefono = "573227295381";
+
+      const nombre = document.getElementById('nombre').value;
+      const asunto = document.getElementById('asunto').value;
+      const mensaje = document.getElementById('mensaje').value;
+
+      const textoFormateado = `*Nuevo mensaje de contacto*\n\n` +
+                              `*Nombre:* ${nombre}\n` +
+                              `*Asunto:* ${asunto}\n` +
+                              `*Mensaje:* ${mensaje}`;
+
+      const url = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(textoFormateado)}`;
+
+      window.open(url, '_blank');
+    });
+  </script>
+
+</body>
+</html>

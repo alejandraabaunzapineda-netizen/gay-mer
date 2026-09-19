@@ -1,0 +1,364 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #12111c;
+  color: #e8e8f0;
+  line-height: 1.6;
+}
+
+/* ===== Barra de navegación (estilo gamer) ===== */
+.navbar {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a1826;
+  padding: 1rem 2.5rem;
+  border-bottom: 2px solid #7b2ff7;
+  box-shadow: 0 2px 12px rgba(123, 47, 247, 0.25);
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #8a7fff;
+  text-shadow: 0 0 8px rgba(138, 127, 255, 0.5);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-links li a {
+  color: #e8e8f0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links li a:hover {
+  color: #8076f3;
+  text-shadow: 0 0 6px rgba(138, 127, 255, 0.6);
+}
+
+.cart-badge-btn {
+  background-color: #7b2ff7;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.cart-badge-btn:hover {
+  background-color: #9b4dff;
+  box-shadow: 0 0 12px rgba(123, 47, 247, 0.6);
+}
+
+/* ===== Sección Inicio ===== */
+#inicio {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+#inicio h1 {
+  font-size: 2.5rem;
+  color: #8a7fff;
+  text-shadow: 0 0 10px rgba(138, 127, 255, 0.4);
+  margin-bottom: 0.5rem;
+}
+
+#inicio h2 {
+  font-size: 1.5rem;
+  color: #b98cf9;
+  margin: 1.5rem 0 0.5rem;
+}
+
+#inicio p {
+  margin-bottom: 1rem;
+  color: #c9c9d6;
+}
+
+/* ===== Mapa ===== */
+#inicio iframe {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 1px solid #7b2ff7;
+  box-shadow: 0 0 15px rgba(123, 47, 247, 0.3);
+}
+
+/* ===== Equipo ===== */
+#inicio div {
+  background-color: #1f1d2e;
+  border: 1px solid #2e2b40;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-top: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+#inicio div h3 {
+  color: #8a7fff                                                                ;
+  margin-bottom: 0.4rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  #inicio iframe {
+    height: 250px;
+  }
+}
+
+/* ===================================================== */
+/* ===== SECCIONES NUEVAS: Hero, Beneficios, Testimonios, Footer ===== */
+/* ===================================================== */
+
+/* ----- Hero ----- */
+.hero-new {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-new-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.hero-new-text h1 {
+  font-size: 2.4rem;
+  color: #8a7fff;
+  text-shadow: 0 0 10px rgba(138, 127, 255, 0.4);
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+
+.hero-new-text p {
+  color: #c9c9d6;
+  font-size: 1rem;
+  max-width: 460px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-new-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-new-btns a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background-color 0.2s, box-shadow 0.2s, color 0.2s;
+}
+
+.btn-hero-primary {
+  background-color: #7b2ff7;
+  color: #fff;
+}
+
+.btn-hero-primary:hover {
+  background-color: #9b4dff;
+  box-shadow: 0 0 12px rgba(123, 47, 247, 0.6);
+}
+
+.btn-hero-secondary {
+  border: 1px solid #7b2ff7;
+  color: #b98cf9;
+  background-color: transparent;
+}
+
+.btn-hero-secondary:hover {
+  color: #8a7fff;
+  text-shadow: 0 0 6px rgba(138, 127, 255, 0.6);
+}
+
+.hero-new-img {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-new-img svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+/* ----- Beneficios ----- */
+.benefits-new {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 4rem;
+}
+
+.benefit-card-new {
+  background-color: #1f1d2e;
+  border: 1px solid #2e2b40;
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.benefit-card-new:hover {
+  border-color: #7b2ff7;
+  box-shadow: 0 0 15px rgba(123, 47, 247, 0.3);
+}
+
+.benefit-card-new .icon-new {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.benefit-card-new h3 {
+  font-size: 0.95rem;
+  color: #8a7fff;
+  margin-bottom: 0.4rem;
+}
+
+.benefit-card-new p {
+  font-size: 0.8rem;
+  color: #c9c9d6;
+  margin: 0;
+}
+
+/* ----- Testimonios ----- */
+.testimonios-new {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 4rem;
+}
+
+.testimonios-new h2 {
+  font-size: 1.5rem;
+  color: #b98cf9;
+  margin-bottom: 1.25rem;
+}
+
+.testimonios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.t-card-new {
+  background-color: #1f1d2e;
+  border: 1px solid #2e2b40;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.t-card-new .stars-new {
+  color: #facc15;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.t-card-new p {
+  font-size: 0.85rem;
+  color: #c9c9d6;
+  margin-bottom: 0.75rem;
+}
+
+.t-card-new .autor-new {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #8a7fff;
+}
+
+/* ----- Footer ----- */
+.footer-new {
+  background-color: #1a1826;
+  border-top: 2px solid #7b2ff7;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footer-col-new h4 {
+  color: #8a7fff;
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+
+.footer-col-new p,
+.footer-col-new a {
+  display: block;
+  font-size: 0.85rem;
+  color: #c9c9d6;
+  margin-bottom: 0.4rem;
+  text-decoration: none;
+}
+
+.footer-col-new a:hover {
+  color: #8a7fff;
+}
+
+.footer-bottom-new {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.75rem;
+  color: #6f6c80;
+  background-color: #1a1826;
+}
+
+/* ----- Responsive secciones nuevas ----- */
+@media (max-width: 700px) {
+  .benefits-new {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .testimonios-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-new {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-new-btns {
+    justify-content: center;
+  }
+}
